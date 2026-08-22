@@ -34,26 +34,28 @@ Every step above is implemented and tested — not a mockup.
 ---
 
 ## Architecture
-mock_feedback.json (voice / text / messaging, multi-language)
-│
-▼
-src/ingest.py → load raw feedback + Whisper transcription
-│
-▼
-src/translate_layer.py → normalize to English (deep-translator, safe fallback)
-│
-▼
-src/rag_core.py → TF-IDF embed + cosine-similarity retrieval
-│
-▼
-src/prioritize.py → cluster by region/category, score urgency, Gemini briefings
-│
-▼
-backend/main.py → FastAPI: /hotspots, /feedback/search, /hotspots/{i}/summary
-│
-▼
-dashboard/index.html → live register, pulse strip, search, AI briefings
 
+```
+mock_feedback.json (voice / text / messaging, multi-language)
+        │
+        ▼
+  src/ingest.py            → load raw feedback + Whisper transcription
+        │
+        ▼
+  src/translate_layer.py   → normalize to English (deep-translator, safe fallback)
+        │
+        ▼
+  src/rag_core.py          → TF-IDF embed + cosine-similarity retrieval
+        │
+        ▼
+  src/prioritize.py        → cluster by region/category, score urgency, Gemini briefings
+        │
+        ▼
+  backend/main.py          → FastAPI: /hotspots, /feedback/search, /hotspots/{i}/summary
+        │
+        ▼
+  dashboard/index.html     → live register, pulse strip, search, AI briefings
+```
 ---
 
 ## Tech stack
