@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="gazette">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Civic Pulse — Priority Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F5F1E7;
+    --paper-raised: #EFE9DA;
+    --ink: #1C2333;
+    --ink-soft: #5B6172;
+    --indigo: #2B3A67;
+    --amber: #D98A1E;
+    --red: #A6383F;
+    --teal: #4C7A6B;
+    --rule: rgba(28, 35, 51, 0.14);
+    --rule-strong: rgba(28, 35, 51, 0.28);
+    --dot-opacity: 0.035;
+  }
+
+  html[data-theme="night"] {
+    --paper: #12141C;
+    --paper-raised: #191C27;
+    --ink: #ECE7DA;
+    --ink-soft: #8B8FA3;
+    --indigo: #7C93D6;
+    --amber: #E3A94C;
+    --red: #E0666D;
+    --teal: #6FB6A0;
+    --rule: rgba(236, 231, 218, 0.12);
+    --rule-strong: rgba(236, 231, 218, 0.24);
+    --dot-opacity: 0.06;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-font-smoothing: antialiased; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    background-image: radial-gradient(rgba(128,128,128,var(--dot-opacity)) 1px, transparent 1px);
+    background-size: 22px 22px;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  a { color: inherit; }
+
+  ::selection { background: var(--amber); color: var(--paper); }
+
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- MASTHEAD ---------- */
+
+  .masthead {
+    border-bottom: 3px solid var(--ink);
+    padding: 36px 0 20px;
+  }
+
+  .masthead-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .seal {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .seal svg { flex-shrink: 0; color: var(--ink); }
+  .seal svg circle:nth-child(3) { fill: var(--red); }
+
+  .brand-text h1 {
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: clamp(30px, 4vw, 42px);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .brand-text .kicker {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  .masthead-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  .masthead-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.7;
+  }
+
+  .masthead-meta .live-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--red);
+    margin-right: 6px;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ---------- THEME TOGGLE ---------- */
+
+  .theme-toggle {
+    display: inline-flex;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    overflow: hidden;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .theme-toggle button {
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .theme-toggle button.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .theme-toggle button:not(.active):hover {
+    background: var(--rule);
+  }
+
+  .tagline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin: 10px 0 0;
+  }
+
+  /* ---------- PULSE SIGNATURE STRIP ---------- */
+
+  .pulse-section {
+    border-bottom: 1px solid var(--rule);
+    padding: 26px 0 22px;
+  }
+
+  .pulse-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .pulse-svg-wrap {
+    width: 100%;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  #pulseSvg { display: block; width: 100%; height: 130px; }
+
+  .pulse-line {
+    fill: none;
+    stroke: var(--indigo);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: draw-pulse 1.8s ease-out forwards;
+  }
+
+  @keyframes draw-pulse {
+    to { stroke-dashoffset: 0; }
+  }
+
+  .pulse-tick {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    fill: var(--ink-soft);
+  }
+
+  .pulse-node {
+    fill: var(--red);
+    opacity: 0;
+    animation: node-in 0.4s ease-out forwards;
+  }
+
+  @keyframes node-in {
+    to { opacity: 1; }
+  }
+
+  /* ---------- SEARCH ---------- */
+
+  .search-section {
+    padding: 26px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+  }
+
+  .search-row {
+    display: flex;
+    border: 1.5px solid var(--ink);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--paper-raised);
+  }
+
+  .search-row input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 13px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    color: var(--ink);
+    outline: none;
+  }
+
+  .search-row input::placeholder { color: var(--ink-soft); }
+
+  .search-row button {
+    border: none;
+    border-left: 1.5px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0 22px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .search-row button:hover { background: var(--indigo); }
+
+  #results { margin-top: 14px; }
+
+    .result-row {
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--teal);
+    border-radius: 3px;
+    font-size: 13.5px;
+    opacity: 0;
+    animation: fade-in-up 0.35s ease-out forwards;
+  }
+
+  .result-row:last-child { margin-bottom: 0; }
+
+  .result-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  .result-relevance {
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+    .empty-state {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    padding: 6px 0;
+  }
+
+  .skeleton-row {
+    height: 76px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, var(--paper-raised) 25%, var(--rule) 50%, var(--paper-raised) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  .case-row {
+    opacity: 0;
+    animation: fade-in-up 0.4s ease-out forwards;
+  }
+
+  /* ---------- PRIORITY REGISTER ---------- */
+
+  .register-section { padding: 30px 0 60px; }
+
+  .register-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+
+  .register-header h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    margin: 0;
+  }
+
+  .register-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+  }
+
+  .register-list { margin-top: 18px; }
+
+  .case-row {
+    display: grid;
+    grid-template-columns: 52px 1fr 130px;
+    gap: 20px;
+    align-items: start;
+    padding: 20px 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .register-list .case-row:last-child { border-bottom: 1px solid var(--rule); }
+
+  .case-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+    color: var(--rule-strong);
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  .case-row.tier-high .case-num { color: var(--red); }
+  .case-row.tier-med .case-num { color: var(--amber); }
+
+  .case-region {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .case-category {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--indigo);
+    margin: 4px 0 8px;
+  }
+
+  .case-quote {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-style: italic;
+    line-height: 1.55;
+    max-width: 560px;
+  }
+
+  .case-quote::before { content: "\201C"; }
+  .case-quote::after { content: "\201D"; }
+
+  .case-reports {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    margin-top: 8px;
+  }
+
+  .urgency-block { text-align: right; }
+
+  .urgency-score {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .tier-high .urgency-score { color: var(--red); }
+  .tier-med .urgency-score { color: var(--amber); }
+  .tier-low .urgency-score { color: var(--teal); }
+
+  .urgency-unit {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .urgency-bar {
+    margin-top: 8px;
+    height: 4px;
+    width: 100%;
+    background: var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+   .urgency-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    width: 0%;
+    transition: width 1s ease-out;
+  }
+
+  .briefing-btn {
+    margin-top: 14px;
+    border: 1px solid var(--indigo);
+    background: transparent;
+    color: var(--indigo);
+    padding: 6px 14px;
+    border-radius: 3px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .briefing-btn:hover { background: var(--indigo); color: var(--paper); }
+  .briefing-btn:disabled { opacity: 0.5; cursor: default; }
+
+  .briefing-box {
+    margin-top: 12px;
+    padding: 14px 16px;
+    background: var(--paper-raised);
+    border-left: 3px solid var(--indigo);
+    border-radius: 2px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    display: none;
+  }
+
+  .briefing-box.visible { display: block; }
+
+  .briefing-source {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 8px;
+  }
+
+  .tier-high .urgency-bar-fill { background: var(--red); }
+  .tier-med .urgency-bar-fill { background: var(--amber); }
+  .tier-low .urgency-bar-fill { background: var(--teal); }
+
+  /* ---------- FOOTER ---------- */
+
+  footer {
+    border-top: 3px solid var(--ink);
+    padding: 18px 0 36px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+    @media (max-width: 640px) {
+    .wrap { padding: 0 18px; }
+
+    .masthead { padding: 24px 0 16px; }
+    .masthead-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .masthead-right { align-items: flex-start; width: 100%; }
+    .masthead-meta { text-align: left; }
+    .tagline { font-size: 14px; }
+
+    .theme-toggle { width: 100%; }
+    .theme-toggle button { flex: 1; }
+
+    .pulse-svg-wrap { overflow-x: auto; }
+    #pulseSvg { min-width: 700px; }
+
+    .search-row { flex-direction: column; border-radius: 6px; }
+    .search-row input { border-bottom: 1px solid var(--rule); padding: 12px 14px; }
+    .search-row button { border-left: none; padding: 12px; }
+
+    .case-row { grid-template-columns: 32px 1fr; gap: 12px; padding: 16px 0; }
+    .urgency-block { grid-column: 1 / 3; text-align: left; margin-top: 10px; }
+    .urgency-bar { max-width: 160px; }
+    .case-num { font-size: 18px; }
+    .case-region { font-size: 14.5px; }
+    .case-quote { font-size: 13px; }
+
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-line, .pulse-node, .live-dot { animation: none !important; stroke-dashoffset: 0 !important; opacity: 1 !important; }
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--indigo);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="masthead-row">
+      <div class="seal">
+        <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+          <circle cx="23" cy="23" r="21" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="23" cy="23" r="15" stroke="currentColor" stroke-width="1"/>
+          <circle cx="23" cy="23" r="3"/>
+          <g stroke="currentColor" stroke-width="1">
+            <line x1="23" y1="2" x2="23" y2="8"/>
+            <line x1="23" y1="38" x2="23" y2="44"/>
+            <line x1="2" y1="23" x2="8" y2="23"/>
+            <line x1="38" y1="23" x2="44" y2="23"/>
+          </g>
+        </svg>
+        <div class="brand-text">
+          <div class="kicker">Build with AI — Code for Communities</div>
+          <h1>Civic Pulse</h1>
+        </div>
+      </div>
+      <div class="masthead-right">
+        <div class="theme-toggle" role="group" aria-label="Theme preference">
+          <button id="themeGazette" class="active" onclick="setTheme('gazette')">Gazette</button>
+          <button id="themeNight" onclick="setTheme('night')">Night Watch</button>
+        </div>
+        <div class="masthead-meta">
+          <div><span class="live-dot"></span>LIVE FEED — MULTI-REGION</div>
+          <div id="metaTimestamp">SYNCED —</div>
+        </div>
+      </div>
+    </div>
+    <p class="tagline">A running signal of citizen infrastructure demand, read the way a district officer reads a morning register.</p>
+  </header>
+
+  <section class="pulse-section">
+    <div class="pulse-label">
+      <span>Signal — Top Regions by Urgency</span>
+      <span id="pulseSummary">reading feed…</span>
+    </div>
+    <div class="pulse-svg-wrap">
+      <svg id="pulseSvg" viewBox="0 0 900 130" preserveAspectRatio="none"></svg>
+    </div>
+  </section>
+
+  <section class="search-section">
+    <div class="section-label">Query the Feed</div>
+    <div class="search-row">
+      <input id="searchInput" type="text" placeholder="water supply problems, road accidents, garbage collection…" />
+      <button onclick="runSearch()">Search</button>
+    </div>
+    <div id="results">
+      <p class="empty-state">Enter a query above. Matching citizen reports will be ranked here by relevance.</p>
+    </div>
+  </section>
+
+  <section class="register-section">
+    <div class="register-header">
+      <h2>Priority Register</h2>
+      <span class="register-count" id="registerCount">— entries</span>
+    </div>
+    <div class="register-list" id="hotspots">
+      <p class="empty-state">Reading the register…</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>CIVIC PULSE · AI FOR DIGITAL PUBLIC INFRASTRUCTURE &amp; GOVERNANCE</span>
+    <span id="footerCount">— reports indexed</span>
+  </footer>
+
+</div>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+
+  // ---------- THEME ----------
+  function setTheme(name) {
+    document.documentElement.setAttribute("data-theme", name);
+    document.getElementById("themeGazette").classList.toggle("active", name === "gazette");
+    document.getElementById("themeNight").classList.toggle("active", name === "night");
+    try { localStorage.setItem("civicPulseTheme", name); } catch (e) {}
+  }
+
+  (function initTheme() {
+    let saved = "gazette";
+    try { saved = localStorage.getItem("civicPulseTheme") || "gazette"; } catch (e) {}
+    setTheme(saved);
+  })();
+
+  document.getElementById("metaTimestamp").textContent =
+    "SYNCED " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+  function tierOf(score) {
+    if (score >= 6) return "tier-high";
+    if (score >= 3) return "tier-med";
+    return "tier-low";
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function drawPulse(hotspots) {
+    const svg = document.getElementById("pulseSvg");
+    const W = 900, baseline = 95, padX = 24;
+    const top = hotspots.slice(0, 8);
+    const maxScore = Math.max(...top.map(h => h.urgency_score), 1);
+    const step = (W - padX * 2) / (top.length - 1 || 1);
+
+    let points = top.map((h, i) => {
+      const x = padX + i * step;
+      const y = baseline - (h.urgency_score / maxScore) * 68;
+      return { x, y, h };
+    });
+
+    let d = `M 0 ${baseline}`;
+    points.forEach((p, i) => {
+      const prevX = i === 0 ? 0 : points[i - 1].x;
+      const mid1 = prevX + (p.x - prevX) * 0.55;
+      const mid2 = p.x - 6;
+      d += ` L ${mid1} ${baseline} L ${mid2} ${p.y} L ${p.x} ${p.y} L ${p.x + 6} ${baseline}`;
+    });
+    d += ` L ${W} ${baseline}`;
+
+    const nodesSvg = points.map((p, i) => `
+      <circle class="pulse-node" cx="${p.x}" cy="${p.y}" r="3" style="animation-delay:${1.6 + i * 0.08}s"/>
+      <text class="pulse-tick" x="${p.x}" y="${baseline + 20}" text-anchor="middle">${escapeHtml(p.h.region.split(",")[0])}</text>
+      <text class="pulse-tick" x="${p.x}" y="${p.y - 8}" text-anchor="middle" fill="var(--red)" font-weight="600">${p.h.urgency_score}</text>
+    `).join("");
+
+    svg.innerHTML = `
+      <line x1="0" y1="${baseline}" x2="${W}" y2="${baseline}" stroke="var(--ink)" stroke-opacity="0.12" stroke-width="1"/>
+      <path class="pulse-line" d="${d}" />
+      ${nodesSvg}
+    `;
+  }
+
+    async function loadHotspots() {
+    const el = document.getElementById("hotspots");
+    el.innerHTML = Array.from({length: 4}).map(() => `<div class="skeleton-row"></div>`).join("");
+    try {
+      const res = await fetch(`${API_BASE}/hotspots`);
+      const data = await res.json();
+
+      document.getElementById("registerCount").textContent = `${data.length} entries, ranked by urgency`;
+      document.getElementById("footerCount").textContent =
+        `${data.reduce((s, h) => s + h.num_reports, 0)} reports indexed across ${new Set(data.map(h=>h.region)).size} regions`;
+      document.getElementById("pulseSummary").textContent = `${data.length} active signals`;
+
+      drawPulse(data);
+
+            el.innerHTML = data.map((h, i) => {
+        const tier = tierOf(h.urgency_score);
+        const maxScore = Math.max(...data.map(x => x.urgency_score), 1);
+        const pct = Math.round((h.urgency_score / maxScore) * 100);
+        return `
+          <div class="case-row ${tier}" style="animation-delay:${i * 0.06}s">
+            <div class="case-num">${String(i + 1).padStart(2, "0")}</div>
+            <div>
+              <div class="case-region">${escapeHtml(h.region)}</div>
+              <div class="case-category">${escapeHtml(h.category)}</div>
+              <div class="case-quote">${escapeHtml(h.sample_feedback)}</div>
+                            <div class="case-reports">${h.num_reports} report${h.num_reports === 1 ? "" : "s"} on file</div>
+              <button class="briefing-btn" id="briefBtn${i}" onclick="generateBriefing(${i})">Generate AI Briefing</button>
+              <div class="briefing-box" id="briefBox${i}"></div>
+            </div>
+            <div class="urgency-block">
+              <div class="urgency-score">${h.urgency_score}</div>
+              <div class="urgency-unit">urgency pts</div>
+              <div class="urgency-bar"><div class="urgency-bar-fill" style="width:${pct}%"></div></div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+    } catch (e) {
+      el.innerHTML = `<p class="empty-state">Register unavailable — could not reach the backend at ${API_BASE}. Start it with: uvicorn backend.main:app --port 8000</p>`;
+      document.getElementById("pulseSummary").textContent = "no signal";
+    }
+  }
+  
+    async function generateBriefing(index) {
+    const btn = document.getElementById(`briefBtn${index}`);
+    const box = document.getElementById(`briefBox${index}`);
+    btn.disabled = true;
+    btn.textContent = "Generating…";
+    box.classList.add("visible");
+    box.textContent = "Contacting Gemini for a policymaker briefing…";
+
+    try {
+      const res = await fetch(`${API_BASE}/hotspots/${index}/summary`);
+      const data = await res.json();
+      box.innerHTML = `${escapeHtml(data.summary)}<div class="briefing-source">Source: ${escapeHtml(data.source)}</div>`;
+      btn.textContent = "Regenerate Briefing";
+    } catch (e) {
+      box.textContent = "Could not reach the backend for a briefing.";
+      btn.textContent = "Generate AI Briefing";
+    }
+    btn.disabled = false;
+  }
+
+    async function runSearch() {
+    const q = document.getElementById("searchInput").value.trim();
+    const el = document.getElementById("results");
+    if (!q) return;
+    el.innerHTML = `<div class="skeleton-row"></div><div class="skeleton-row"></div>`;
+    try {
+      const res = await fetch(`${API_BASE}/feedback/search?q=${encodeURIComponent(q)}`);
+      const data = await res.json();
+      if (!data.length) {
+        el.innerHTML = `<p class="empty-state">No reports match "${escapeHtml(q)}". Try a different term.</p>`;
+        return;
+      }
+      el.innerHTML = data.map((r, i) => `
+        <div class="result-row" style="animation-delay:${i * 0.06}s">
+          <div class="result-meta">
+            <span>${escapeHtml(r.region)} · ${r.language} · via ${r.channel}</span>
+            <span class="result-relevance">${r.relevance_score}</span>
+          </div>
+          ${escapeHtml(r.text_en)}
+        </div>
+      `).join("");
+    } catch (e) {
+      el.innerHTML = `<p class="empty-state">Search failed — check that the backend is running.</p>`;
+    }
+  }
+
+  document.getElementById("searchInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") runSearch();
+  });
+
+  loadHotspots();
+</script>
+
+</body>
+</html>

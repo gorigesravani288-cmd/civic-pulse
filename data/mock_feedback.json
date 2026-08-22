@@ -1,0 +1,72 @@
+[
+  {
+    "id": "fb001",
+    "region": "Hyderabad, Telangana",
+    "language": "en",
+    "channel": "text",
+    "text": "The main road near Ameerpet metro station has been flooded for 3 days after the rains. School buses cannot pass."
+  },
+  {
+    "id": "fb002",
+    "region": "Hyderabad, Telangana",
+    "language": "te",
+    "channel": "voice",
+    "text": "Ameerpet daggara road paina neellu nindipoyayi, school pillalu vellalekapotunnaru. Konni rojula nunchi ilage undi."
+  },
+  {
+    "id": "fb003",
+    "region": "Nagpur, Maharashtra",
+    "language": "mr",
+    "channel": "messaging",
+    "text": "Rugnalayat panyachi tuti aahe. Rugna warsha divas panyavina raahtat."
+  },
+  {
+    "id": "fb004",
+    "region": "Nagpur, Maharashtra",
+    "language": "en",
+    "channel": "text",
+    "text": "The district hospital has had no water supply for two days. Patients are struggling."
+  },
+  {
+    "id": "fb005",
+    "region": "Lucknow, Uttar Pradesh",
+    "language": "hi",
+    "channel": "voice",
+    "text": "Sadak bahut kharaab hai, gaadiyon ko chalane mein bahut dikkat ho rahi hai, kai accident ho chuke hain."
+  },
+  {
+    "id": "fb006",
+    "region": "Lucknow, Uttar Pradesh",
+    "language": "en",
+    "channel": "text",
+    "text": "Road near the market has huge potholes causing frequent accidents. Needs urgent repair."
+  },
+  {
+    "id": "fb007",
+    "region": "Chennai, Tamil Nadu",
+    "language": "ta",
+    "channel": "messaging",
+    "text": "Kudineer kidaikala, pala naatkalaaga pipe pazhudhu, makkal romba sirumapadraanga."
+  },
+  {
+    "id": "fb008",
+    "region": "Chennai, Tamil Nadu",
+    "language": "en",
+    "channel": "text",
+    "text": "No drinking water for several days due to a broken pipeline. Residents are severely affected."
+  },
+  {
+    "id": "fb009",
+    "region": "Hyderabad, Telangana",
+    "language": "en",
+    "channel": "text",
+    "text": "Street lights near the government school have not worked for a month, unsafe for children walking home."
+  },
+  {
+    "id": "fb010",
+    "region": "Nagpur, Maharashtra",
+    "language": "en",
+    "channel": "text",
+    "text": "Garbage has not been collected in our locality for over a week, causing health hazards."
+  }
+]
